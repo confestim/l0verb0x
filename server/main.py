@@ -1,21 +1,35 @@
 import socket
+import time 
 
+print("What message do you want to send?")
+message = input()
 HOST = '0.0.0.0'
-PORT = 8420
+PORT = 1337
 dataList = []
+print(f"Server started at {PORT}")
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind((HOST, PORT))
     s.listen()
     conn, addr = s.accept()
     
-    with conn:
-        print('Connected by', addr)
-        while True:
-            data = conn.recv(1024)
-            dataList.append(data.decode('utf-8').replace("\n", ""))
-            if not data:
-                conn.sendall("Disconnected".encode("utf-8"))
-                break
-            conn.sendall(data)
-            print(dataList)
+    while True:
+
+        try:
+            with conn:
+                print('Connected by', addr)
+                data = conn.recv(1024)
+                dataList.append(data.decode('utf-8').replace("\n", ""))
+                if not data:
+                   conn.sendall("Disconnected".encode("utf-8"))
+                   break
+                conn.sendall(f"{message}".encode("utf-8"))
+                print(dataList)
+
+        except OSError:
+            print("Provide me another message?")
+            message = input()
+            time.sleep(3600)
+            print("server started again")
+            continue
+
