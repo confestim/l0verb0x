@@ -1,7 +1,7 @@
 import socket
 import time 
 
-print("What message do you want to send?")
+print("What message do you want to send? (14 chars)")
 message = input()
 HOST = '0.0.0.0'
 PORT = 1337
