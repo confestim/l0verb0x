@@ -29,6 +29,11 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         except OSError:
             print("Provide me another message?")
             message = input()
+            s.close()
+            s = socket.socket()
+            s.bind((HOST, PORT))
+            s.listen()
+            conn, addr = s.accept()
             time.sleep(3600)
             print("server started again")
             continue
